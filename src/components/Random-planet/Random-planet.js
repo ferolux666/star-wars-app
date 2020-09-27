@@ -1,15 +1,11 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './Random-planet.css';
 import SwapiService from "../../services/swapi-service";
 
 export default class RandomPlanet extends Component {
 
     state = {
-        id: null,
-        name: null,
-        population: null,
-        rotationPeriod: null,
-        diameter: null,
+        planet: {}
     }
 
     constructor(props) {
@@ -24,18 +20,14 @@ export default class RandomPlanet extends Component {
         this.swApi.getPlanet(id)
             .then(planet => {
                 this.setState({
-                    id,
-                    name: planet.name,
-                    population: planet.population,
-                    rotationPeriod: planet["rotation_period"],
-                    diameter: planet.diameter
+                    planet
                 })
             })
     }
 
     render() {
 
-        const { id, name, population, rotationPeriod, diameter } = this.state;
+        const { planet: { id, name, population, rotationPeriod, diameter }  } = this.state;
         return (
             <div className="random-planet jumbotron rounded">
                 <img className="planet-image"
@@ -59,7 +51,6 @@ export default class RandomPlanet extends Component {
                     </ul>
                 </div>
             </div>
-
         );
     }
 }
