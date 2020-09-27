@@ -1,10 +1,11 @@
 export default class SwapiService {
+
     _apiBaseUrl = "https://swapi.dev/api";
 
     getResource = async (url) => {
         const res = await fetch(`${this._apiBaseUrl}${url}`);
         if(!res.ok) {
-            throw new Error(`Возникла ошибка при запросе на сервер`)
+            throw new Error(`Ошибка при запросе на сервер по адресу: ${this._apiBaseUrl}${url}. Код ошибки: ${res.status}`)
         }
         return res.json();
     }
