@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
-
 import './Item-list.css';
 import SwapiService from "../../services/swapi-service";
 import Spinner from "../Spinner/Spinner";
-import ErrorButton from "../Error-button/Error-button";
 
 export default class ItemList extends Component {
 
@@ -14,7 +12,8 @@ export default class ItemList extends Component {
     }
 
     componentDidMount = () => {
-        this.swapi.getAllPeople()
+        const { getData } = this.props;
+        getData()
             .then(itemList => {
                 this.setState({
                     itemList
@@ -23,12 +22,16 @@ export default class ItemList extends Component {
     }
 
     renderItems = (items) => {
-        return items.map(({id, name}) => {
+        return items.map( item => {
+            const {id} = item;
+            const { renderItem } = this.props;
+            debugger;
+            const label = renderItem(item)
             return (
                 <li className="list-group-item"
                     key={id}
                     onClick={() => this.props.onItemSelected(id)}>
-                    {name}
+                    {label}
                 </li>
             )
         })
@@ -36,7 +39,6 @@ export default class ItemList extends Component {
 
 
     render() {
-
         const { itemList } = this.state;
 
         if(!itemList) {
