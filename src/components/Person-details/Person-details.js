@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Person-details.css';
 import SwapiService from "../../services/swapi-service";
+import Spinner from "../Spinner/Spinner";
 import ErrorButton from "../Error-button/Error-button";
 
 export default class PersonDetails extends Component {
@@ -12,19 +13,16 @@ export default class PersonDetails extends Component {
     }
 
     componentDidMount() {
-        console.log("componentDidMount")
         this.updateItemInfo();
     }
 
     componentDidUpdate(prevProps) {
-        console.log("componentDidUpdate")
         if(prevProps.itemSelected !== this.props.itemSelected) {
             this.updateItemInfo();
         }
     }
 
     onLoaded = (id) => {
-        console.log("onloaded")
         this.swapi.getPerson(id)
             .then(item => {
                 this.setState({
@@ -34,7 +32,6 @@ export default class PersonDetails extends Component {
     }
 
     updateItemInfo = () => {
-        console.log("update")
         const id = this.props.itemSelected;
         if(!id) {
             return;
@@ -43,12 +40,10 @@ export default class PersonDetails extends Component {
     }
 
     render() {
-        console.log("render")
-
         const { itemDetails } = this.state
 
         if (!itemDetails) {
-            return <span>Выберите персоажа</span>
+            return <Spinner/>
         }
 
         return (
