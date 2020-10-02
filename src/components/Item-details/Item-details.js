@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './Item-details.css';
-import SwapiService from "../../services/swapi-service";
 import Spinner from "../Spinner/Spinner";
 import ErrorButton from "../Error-button/Error-button";
+import ErrorIndicator from "../Error-indicator/Error-indicator";
 
 export const Record = ({label, field, itemDetails}) => {
     return (
@@ -15,19 +15,19 @@ export const Record = ({label, field, itemDetails}) => {
 
 export default class ItemDetails extends Component {
 
-    swapi = new SwapiService();
-
     state = {
         itemDetails: null,
-        imageUrl: null
+        imageUrl: null,
+        loading: true,
+        hasError: false
     }
 
     componentDidMount() {
         this.updateItemInfo();
     }
 
-    componentDidUpdate(prevProps) {
-        if(prevProps.itemSelected !== this.props.itemSelected) {
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevProps.itemId !== this.props.itemId) {
             this.updateItemInfo();
         }
     }
@@ -38,6 +38,13 @@ export default class ItemDetails extends Component {
                 this.setState({
                     itemDetails: item,
                     imageUrl: imageUrl(id),
+                    loading: false
+                })
+            })
+            .catch(() => {
+                this.setState({
+                    hasError: true,
+                    loading: false
                 })
             })
     }
@@ -51,10 +58,12 @@ export default class ItemDetails extends Component {
     }
 
     render() {
-        const { itemDetails, imageUrl } = this.state
+        const { itemDetails, imageUrl, loading, hasError } = this.state
 
-        if (!itemDetails) {
+        if (loading) {
             return <Spinner/>
+        } else if(hasError) {
+            return <ErrorIndicator/>
         }
 
         return (
@@ -66,7 +75,6 @@ export default class ItemDetails extends Component {
 }
 
 const ViewItem = ({itemDetails, imageUrl, children}) => {
-    debugger;
     const { name } = itemDetails;
     return (
         <React.Fragment>
