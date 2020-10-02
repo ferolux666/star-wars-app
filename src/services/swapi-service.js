@@ -81,13 +81,13 @@ export default class SwapiService {
         }
     }
 
-    getImageStarships = (id) => {
+    getStarshipImage = (id) => {
         return `https://starwars-visualguide.com/assets/img/starships/${id}.jpg`
     }
-    getImagePerson = (id) => {
+    getPersonImage = (id) => {
         return `https://starwars-visualguide.com/assets/img/characters/${id}.jpg`
     }
-    getImagePlanet = (id) => {
+    getPlanetImage = (id) => {
         return `https://starwars-visualguide.com/assets/img/planets/${id}.jpg`
     }
 }
