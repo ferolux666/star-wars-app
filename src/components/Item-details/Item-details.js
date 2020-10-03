@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './Item-details.css';
 import Spinner from "../Spinner/Spinner";
 import ErrorButton from "../Error-button/Error-button";
-import ErrorIndicator from "../Error-indicator/Error-indicator";
+import {Redirect} from "react-router-dom";
 
 export const Record = ({label, field, itemDetails}) => {
     return (
@@ -28,6 +28,9 @@ export default class ItemDetails extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if(prevProps.itemId !== this.props.itemId) {
+            this.setState({
+                loading: true
+            })
             this.updateItemInfo();
         }
     }
@@ -63,7 +66,7 @@ export default class ItemDetails extends Component {
         if (loading) {
             return <Spinner/>
         } else if(hasError) {
-            return <ErrorIndicator/>
+            return <Redirect to='/'/>
         }
 
         return (
